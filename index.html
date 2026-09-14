@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 瀏覽器標題 -->
+  <title>學測神實戰之成為公民神不再只是夢想模考系統</title>
+  
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome 6.5.1 CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- 主樣式表 -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 頂部導航列 -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand-area">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <div class="brand-title-wrap">
+          <!-- 網頁標題 -->
+          <h1 id="main-web-title">學測神實戰之成為公民神不再只是夢想模考系統</h1>
+          <div class="brand-subtitle">
+            <i class="fa-solid fa-bolt"></i> GSAT & CAP Civics Mock Exam & Digital Testing Platform
+          </div>
+        </div>
+      </div>
+
+      <!-- 導航選單切換 -->
+      <nav class="nav-tabs" aria-label="系統模式導航">
+        <button class="nav-tab-btn active" data-target="overview-view">
+          <i class="fa-solid fa-layer-group"></i> 單元總覽
+        </button>
+        <button class="nav-tab-btn" data-target="exam-config-view">
+          <i class="fa-solid fa-pen-to-square"></i> 線上模擬考
+        </button>
+        <button class="nav-tab-btn" data-target="practice-view">
+          <i class="fa-solid fa-book-open-reader"></i> 即時刷題練習
+        </button>
+        <button class="nav-tab-btn" data-target="print-view">
+          <i class="fa-solid fa-file-pdf"></i> 考券列印與PDF
+        </button>
+      </nav>
+
+      <!-- 右側快速操作 -->
+      <div class="header-actions">
+        <button class="btn btn-secondary btn-sm" id="btn-quick-wrong-book" title="查看錯題本">
+          <i class="fa-solid fa-bookmark text-amber-500"></i> 錯題本 (<span id="wrong-count-badge">0</span>)
+        </button>
+        <button class="btn btn-secondary btn-sm" id="btn-clear-history" title="一鍵清除所有錯題與歷史作答紀錄">
+          <i class="fa-solid fa-trash-can" style="color: #ef4444;"></i> 清除歷史紀錄
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主內容區域 -->
+  <main class="main-wrapper">
+
+    <!-- 頂部主視覺 Banner -->
+    <section class="hero-banner">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fa-solid fa-star"></i> 邱俐瑜公民，成為公民神不再只是夢想！
+        </div>
+        <h2 class="hero-title">公民神挑戰！數位互動與實戰試卷雙軌系統</h2>
+        <p class="hero-desc">
+          收錄全單元精華素養題、歷屆學測試題與創新混合非選題組。支援線上智能計時作答、即時解析反饋、標準答案卡核對，並可一鍵匯出排版精美的「題目卷」與「解答詳解卷」PDF 檔！
+        </p>
+        <div class="hero-stats-row">
+          <div class="hero-stat-card" id="hero-stat-units" style="cursor: pointer;" title="查看各單元">
+            <i class="fa-solid fa-book-bookmark stat-icon"></i>
+            <div>
+              <div class="stat-val" id="stat-total-units">18 大核心</div>
+              <div class="stat-lbl">學習單元主題</div>
+            </div>
+          </div>
+          <div class="hero-stat-card" id="hero-stat-questions" style="cursor: pointer;" title="開始全真模考">
+            <i class="fa-solid fa-clipboard-question stat-icon"></i>
+            <div>
+              <div class="stat-val" id="stat-total-questions">475 題</div>
+              <div class="stat-lbl">精選素養與歷屆題</div>
+            </div>
+          </div>
+          <div class="hero-stat-card" id="hero-stat-pdf" style="cursor: pointer;" title="前往考券列印與 PDF 匯出">
+            <i class="fa-solid fa-file-export stat-icon"></i>
+            <div>
+              <div class="stat-val">A4 PDF</div>
+              <div class="stat-lbl">題目卷/詳解卷匯出 (點此前往)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 視圖 1: 單元總覽 -->
+    <section id="overview-view" class="view-section active">
+      <div class="section-heading">
+        <h2 class="section-title">
+          <i class="fa-solid fa-compass"></i> 公民科單元總覽與快速自測
+        </h2>
+        <div>
+          <button class="btn btn-primary" id="btn-start-full-exam">
+            <i class="fa-solid fa-play"></i> 開始全真模擬測驗
+          </button>
+        </div>
+      </div>
+
+      <!-- 單元卡片容器 -->
+      <div class="unit-cards-grid" id="units-grid-container">
+        <!-- 由 JS 動態渲染 -->
+      </div>
+    </section>
+
+    <!-- 視圖 2: 模考設定 -->
+    <section id="exam-config-view" class="view-section">
+      <div class="config-card">
+        <h2 class="section-title">
+          <i class="fa-solid fa-sliders"></i> 自訂模擬測驗設定
+        </h2>
+        <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.25rem;">
+          依照您的複習進度，自選測驗單元範圍、題數與測驗時間。
+        </p>
+
+        <div class="config-grid">
+          <!-- 範圍選擇 -->
+          <div class="form-group">
+            <label><i class="fa-solid fa-list-check"></i> 測驗單元範圍</label>
+            <div class="checkbox-group" id="unit-selector-checkboxes">
+              <!-- 由 JS 渲染 -->
+            </div>
+          </div>
+
+          <!-- 題型與題數 -->
+          <div class="form-group">
+            <label><i class="fa-solid fa-hashtag"></i> 抽考題數</label>
+            <select class="form-select" id="exam-qcount-select">
+              <option value="10">10 題（快速隨堂測驗）</option>
+              <option value="20" selected>20 題（標準單元模考）</option>
+              <option value="30">30 題（全真大型模擬考）</option>
+              <option value="all">全選（測驗所選單元全部試題）</option>
+            </select>
+
+            <label style="margin-top: 1rem;"><i class="fa-solid fa-stopwatch"></i> 測驗倒數計時</label>
+            <select class="form-select" id="exam-timer-select">
+              <option value="15">15 分鐘（衝刺快問）</option>
+              <option value="30">30 分鐘（半小時小考）</option>
+              <option value="50" selected>50 分鐘（標準學測模考）</option>
+              <option value="0">無時間限制（自主輕鬆測驗）</option>
+            </select>
+          </div>
+
+          <!-- 模式與排序 -->
+          <div class="form-group">
+            <label><i class="fa-solid fa-shuffle"></i> 題目排序方式</label>
+            <select class="form-select" id="exam-order-select">
+              <option value="random" selected>隨機亂數抽題 (推薦)</option>
+              <option value="sequential">依單元循序排列</option>
+            </select>
+
+            <label style="margin-top: 1rem;"><i class="fa-solid fa-filter"></i> 題型包含</label>
+            <select class="form-select" id="exam-type-filter-select">
+              <option value="all" selected>包含所有題型（單選、混合、非選、歷屆）</option>
+              <option value="single">僅單選題</option>
+              <option value="mixed">包含混合與非選題組</option>
+              <option value="gsat">僅歷屆學測經典題</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+          <button class="btn btn-secondary" id="btn-config-reset">
+            <i class="fa-solid fa-rotate-left"></i> 重設
+          </button>
+          <button class="btn btn-primary btn-lg" id="btn-launch-exam">
+            <i class="fa-solid fa-rocket"></i> 開始測驗
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 視圖 3: 進行中的測驗畫面 -->
+    <section id="exam-active-view" class="view-section">
+      <div class="exam-header-bar">
+        <div class="exam-info-box">
+          <div class="exam-title-badge" id="exam-active-title">
+            <i class="fa-solid fa-pen-nib text-primary"></i> 公民科模擬測驗進行中
+          </div>
+          <div class="timer-box" id="exam-timer-display">
+            <i class="fa-solid fa-clock"></i> <span id="timer-text">50:00</span>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.6rem; align-items: center;">
+          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
+            已作答: <b id="progress-answered" style="color: var(--primary);">0</b> / <span id="progress-total">0</span>
+          </span>
+          <button class="btn btn-success btn-sm" id="btn-submit-exam">
+            <i class="fa-solid fa-paper-plane"></i> 交卷計分
+          </button>
+        </div>
+      </div>
+
+      <div class="exam-layout">
+        <!-- 題目列表區 -->
+        <div class="exam-questions-container" id="exam-questions-container">
+          <!-- 由 JS 渲染題目 -->
+        </div>
+
+        <!-- 右側/底部答案卡導航 -->
+        <aside class="exam-sidebar">
+          <div class="sheet-card">
+            <div class="sheet-header">
+              <span><i class="fa-solid fa-table-cells"></i> 答題卡導航</span>
+              <span style="font-size: 0.75rem; color: var(--text-muted);">點擊題號跳轉</span>
+            </div>
+
+            <div class="sheet-legend">
+              <div class="legend-item"><div class="legend-dot answered"></div>已答</div>
+              <div class="legend-item"><div class="legend-dot unanswered"></div>未答</div>
+              <div class="legend-item"><div class="legend-dot flagged"></div>標記</div>
+            </div>
+
+            <div class="sheet-grid" id="sheet-buttons-grid">
+              <!-- 由 JS 渲染題號按鈕 -->
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%;" id="btn-sidebar-submit">
+              <i class="fa-solid fa-check-double"></i> 確認交卷
+            </button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 視圖 4: 測驗結果報告 -->
+    <section id="score-report-view" class="view-section">
+      <div class="score-hero">
+        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">
+          <i class="fa-solid fa-award"></i> 測驗成績與分析報告
+        </h2>
+
+        <div class="score-circle-wrap" id="score-circle-indicator">
+          <div class="score-circle-inner">
+            <div class="score-big" id="report-final-score">85</div>
+            <div class="score-max">總分 100 分</div>
+          </div>
+        </div>
+
+        <div class="score-tier-badge" id="report-tier-badge">
+          <i class="fa-solid fa-crown"></i> 預估等級：頂標（公民神實力！）
+        </div>
+
+        <div class="score-details-row">
+          <div class="score-item">
+            <div class="val" id="report-correct-count" style="color: #34d399;">17 題</div>
+            <div class="lbl">答對題數</div>
+          </div>
+          <div class="score-item">
+            <div class="val" id="report-wrong-count" style="color: #f87171;">3 題</div>
+            <div class="lbl">答錯題數</div>
+          </div>
+          <div class="score-item">
+            <div class="val" id="report-accuracy-rate">85%</div>
+            <div class="lbl">正確率</div>
+          </div>
+          <div class="score-item">
+            <div class="val" id="report-time-spent">24:30</div>
+            <div class="lbl">作答用時</div>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.75rem; display: flex; justify-content: center; gap: 0.85rem; flex-wrap: wrap;">
+          <button class="btn btn-secondary" id="btn-retest">
+            <i class="fa-solid fa-rotate"></i> 重新測驗
+          </button>
+          <button class="btn btn-accent" id="btn-export-result-pdf">
+            <i class="fa-solid fa-file-pdf"></i> 列印此份考卷詳解
+          </button>
+        </div>
+      </div>
+
+      <!-- 試題回顧與解析 -->
+      <div class="section-heading">
+        <h3 class="section-title">
+          <i class="fa-solid fa-magnifying-glass"></i> 逐題完整解析與作答檢討
+        </h3>
+        <div class="review-filter-bar">
+          <button class="btn btn-secondary btn-sm active" data-review-filter="all">全部題目</button>
+          <button class="btn btn-secondary btn-sm" data-review-filter="wrong">
+            <i class="fa-solid fa-circle-xmark text-danger"></i> 僅看錯題
+          </button>
+          <button class="btn btn-secondary btn-sm" data-review-filter="correct">
+            <i class="fa-solid fa-circle-check text-success"></i> 僅看答對
+          </button>
+        </div>
+      </div>
+
+      <div id="review-questions-list">
+        <!-- 由 JS 渲染試題解析清單 -->
+      </div>
+    </section>
+
+    <!-- 視圖 5: 即時練習 / 刷題模式 -->
+    <section id="practice-view" class="view-section">
+      <div class="section-heading">
+        <h2 class="section-title">
+          <i class="fa-solid fa-brain"></i> 即時解析刷題模式
+        </h2>
+        <div style="display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap;">
+          <select class="form-select" id="practice-unit-select" style="width: auto; min-width: 220px;">
+            <option value="all">全單元隨機刷題 (共 18 單元)</option>
+            <option value="1">第 1 單元 公民身分與權利保障</option>
+            <option value="2">第 2 單元 國家主權與國家認同</option>
+            <option value="3">第 3 單元 民主治理與政府體制</option>
+            <option value="4">第 4 單元 人民的參政</option>
+            <option value="5">第 5 單元 多元文化、公平正義與社會安全</option>
+            <option value="6">第 6 單元 公共意見與媒體</option>
+            <option value="7">第 7 單元 法治的建構與意涵</option>
+            <option value="8">第 8 單元 憲法與人權保障</option>
+            <option value="9">第 9 單元 行政法與行政救濟</option>
+            <option value="10">第 10 單元 權利關係與財產權保障</option>
+            <option value="11">第 11 單元 刑罰與人權保障</option>
+            <option value="12">第 12 單元 契約自由與勞動權益保障</option>
+            <option value="13">第 13 單元 資源有限與分配</option>
+            <option value="14">第 14 單元 需求與供給</option>
+            <option value="15">第 15 單元 市場機能與政府干預</option>
+            <option value="16">第 16 單元 市場失靈與因應對策</option>
+            <option value="17">第 17 單元 貿易與專業分工</option>
+            <option value="18">第 18 單元 社會發展與經濟永續的並進</option>
+          </select>
+          <button class="btn btn-secondary btn-sm" id="btn-practice-refresh">
+            <i class="fa-solid fa-shuffle"></i> 換一批題目
+          </button>
+        </div>
+      </div>
+
+      <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 1.25rem;">
+        點選選項後系統將立即判斷對錯並展開詳細觀念解析與考點說明，非常適合考前重點觀念複習！
+      </p>
+
+      <div id="practice-questions-container">
+        <!-- 由 JS 渲染即時刷題卡片 -->
+      </div>
+    </section>
+
+    <!-- 視圖 6: 考券列印與 PDF 匯出模式 -->
+    <section id="print-view" class="view-section">
+      <!-- 畫面操作控制列 (列印時會自動隱藏) -->
+      <div class="print-view-controls no-print">
+        <div>
+          <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;">
+            <i class="fa-solid fa-print"></i> 實戰考卷與 PDF 匯出控制臺
+          </h3>
+          <p class="text-muted" style="font-size: 0.85rem;">
+            可切換「題目卷」（不含解答，供學生測驗）或「解答卷」（含標準答案與詳解），點擊列印按鈕即可另存為 PDF。
+          </p>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+          <!-- 單元篩選 -->
+          <select class="form-select" id="print-unit-filter" style="width: auto; font-size: 0.85rem;">
+            <option value="all">匯出範圍：全單元綜合試卷 (18 單元)</option>
+            <option value="1">第 1 單元 公民身分與權利保障</option>
+            <option value="2">第 2 單元 國家主權與國家認同</option>
+            <option value="3">第 3 單元 民主治理與政府體制</option>
+            <option value="4">第 4 單元 人民的參政</option>
+            <option value="5">第 5 單元 多元文化、公平正義與社會安全</option>
+            <option value="6">第 6 單元 公共意見與媒體</option>
+            <option value="7">第 7 單元 法治的建構與意涵</option>
+            <option value="8">第 8 單元 憲法與人權保障</option>
+            <option value="9">第 9 單元 行政法與行政救濟</option>
+            <option value="10">第 10 單元 權利關係與財產權保障</option>
+            <option value="11">第 11 單元 刑罰與人權保障</option>
+            <option value="12">第 12 單元 契約自由與勞動權益保障</option>
+            <option value="13">第 13 單元 資源有限與分配</option>
+            <option value="14">第 14 單元 需求與供給</option>
+            <option value="15">第 15 單元 市場機能與政府干預</option>
+            <option value="16">第 16 單元 市場失靈與因應對策</option>
+            <option value="17">第 17 單元 貿易與專業分工</option>
+            <option value="18">第 18 單元 社會發展與經濟永續的並進</option>
+          </select>
+
+          <!-- 切換 題目卷 / 解答卷 -->
+          <div class="print-type-toggle">
+            <button class="print-type-btn active" id="btn-mode-question-paper" data-mode="question">
+              <i class="fa-solid fa-file-pen"></i> 題目卷 (測驗用)
+            </button>
+            <button class="print-type-btn" id="btn-mode-answer-paper" data-mode="answer">
+              <i class="fa-solid fa-file-circle-check"></i> 解答與詳解卷
+            </button>
+          </div>
+
+          <!-- 列印/存為 PDF 按鈕 -->
+          <button class="btn btn-primary" id="btn-trigger-print">
+            <i class="fa-solid fa-print"></i> 列印 / 另存為 PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- 標準 A4 考卷版面結構 (直接用於預覽與 PDF 列印) -->
+      <div class="paper-sheet" id="paper-sheet-printable">
+        <div class="paper-header">
+          <div class="paper-title-main" id="print-paper-main-title">
+            學測神實戰之成為公民神不再只是夢想模考系統
+          </div>
+          <div class="paper-title-sub" id="print-paper-sub-title">
+            115 學年度 公民與社會科 模擬測驗【題目卷】
+          </div>
+
+          <!-- 考生填答資訊表格 (題目卷專用) -->
+          <table class="paper-student-info-table" id="paper-student-info-box">
+            <tr>
+              <td class="header-label">班級</td>
+              <td>&nbsp;</td>
+              <td class="header-label">座號</td>
+              <td>&nbsp;</td>
+              <td class="header-label">姓名</td>
+              <td>&nbsp;</td>
+              <td class="header-label">得分</td>
+              <td class="score-box">&nbsp;</td>
+            </tr>
+          </table>
+
+          <div class="paper-notice" id="paper-notice-text">
+            <b>【注意事項】</b> 1. 本試卷分為單選題、混合題及非選擇題。 2. 請以 2B 鉛筆或黑色墨水筆作答於答案區。 3. 測驗時間共 50 分鐘，滿分 100 分。
+          </div>
+        </div>
+
+        <!-- 考卷試題渲染容器 -->
+        <div id="paper-questions-render-area">
+          <!-- 由 JS 渲染排版精美的試題 -->
+        </div>
+
+        <!-- 試卷底部作答欄 (題目卷選用) -->
+        <div id="paper-manual-answer-sheet" style="margin-top: 2rem; border-top: 2px solid #000; padding-top: 1rem;">
+          <div style="font-weight: 800; margin-bottom: 0.5rem; text-align: center;">【單選題 作答填寫欄】</div>
+          <div id="paper-answer-boxes-grid" style="display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; font-size: 0.8rem; text-align: center;">
+            <!-- 由 JS 渲染 1..N 填答方格 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 吉祥物: 網頁左下角，懸停霓虹彩色發光抖動，可拖曳移動到任何地方 -->
+  <div id="mascot-container" title="我是秋老虎！可拖曳移動到任何地方！">
+    <img src="image/LiyuChillGuy.svg" alt="吉祥物 快樂鯉魚秋老虎" class="mascot-avatar" id="mascot-img" draggable="false">
+  </div>
+
+  <!-- 頁面底部 Footer -->
+  <footer class="app-footer">
+    <div>
+      <!-- 上方出現 FB 粉絲專頁 ICON 快樂鯉魚秋老虎 -->
+      <a href="https://www.facebook.com/happyliyuchilltiger/" target="_blank" rel="noopener noreferrer" class="footer-fb-link" title="前往 快樂鯉魚秋老虎 Facebook 粉絲專頁">
+        <i class="fa-brands fa-facebook" style="font-size: 1.25rem;"></i>
+        <span>FB 粉絲專頁：快樂鯉魚秋老虎</span>
+        <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem;"></i>
+      </a>
+    </div>
+
+    <!-- 頁面下方版權宣告 -->
+    <div class="footer-copyright">
+      Copyright © Liyuchiutiger Gongminshen
+    </div>
+  </footer>
+
+  <!-- 交卷確認 Modal -->
+  <div class="modal-overlay" id="submit-confirm-modal">
+    <div class="modal-box">
+      <h3 class="modal-title">
+        <i class="fa-solid fa-circle-question text-primary"></i> 確認繳交試卷？
+      </h3>
+      <p id="modal-submit-stats" style="color: var(--text-muted); margin-bottom: 1rem;">
+        您已作答 0 題，尚有 0 題未作答。
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-modal-cancel">繼續作答</button>
+        <button class="btn btn-primary" id="btn-modal-confirm">確認交卷</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 清除歷史紀錄確認 Modal -->
+  <div class="modal-overlay" id="clear-history-modal">
+    <div class="modal-box">
+      <h3 class="modal-title" style="color: #e11d48;">
+        <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444;"></i> 確認清除所有歷史紀錄？
+      </h3>
+      <p style="color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.6; font-size: 0.95rem;">
+        此操作將會<strong>清空「錯題本」所有收藏試題</strong>以及本機作答暫存紀錄。清除後將無法復原，是否確定要清除？
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" id="btn-modal-clear-cancel">取消</button>
+        <button class="btn btn-primary" id="btn-modal-clear-confirm" style="background: #e11d48; border-color: #be123c;">確認清除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 引入題庫與主程式腳本 -->
+  <script src="js/exam-data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
