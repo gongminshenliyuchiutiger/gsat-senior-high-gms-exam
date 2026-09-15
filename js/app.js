@@ -184,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!DOM.unitsGrid) return;
     DOM.unitsGrid.innerHTML = "";
 
-<<<<<<< HEAD
     EXAM_DATABASE.units.forEach(unit => {
       const card = document.createElement("div");
       card.className = "unit-card";
@@ -205,116 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
           <button class="btn btn-accent btn-sm btn-unit-print" data-unit="${unit.id}" style="flex:1; min-width:85px;">
             <i class="fa-solid fa-print"></i> 考券PDF
           </button>
-=======
-  // 渲染講義精讀模式
-  function renderReadingMode(unit) {
-    if (!readingContent) return;
-
-    let mdText = unit.content;
-
-    // 把立即演練或公民神演練區塊轉化為互動卡片標記
-    const quizBlocks = [];
-    const quizRegex = />\s*###\s*(?:<i[^>]*><\/i>\s*)?(?:📝\s*)?(?:立即演練|公民神演練)[！!]?[\s\S]*?(?=(?:\r?\n---|\r?\n##|$))/g;
-
-    let replacedMd = mdText.replace(quizRegex, (match) => {
-      const quizObj = window.GSAT_QUIZ.parseQuizBlock(match);
-      const placeholder = `%%QUIZ_PLACEHOLDER_${quizBlocks.length}%%`;
-      quizBlocks.push(quizObj);
-      return `\n\n${placeholder}\n\n`;
-    });
-
-    // 轉換所有 Emoji 為 Font Awesome 圖標
-    replacedMd = replaceEmojisWithFontAwesome(replacedMd);
-
-    // Marked.js 解析（包含 KaTeX 數學公式安全保護）
-    let renderedHtml = window.parseMarkdownWithMath
-      ? window.parseMarkdownWithMath(replacedMd)
-      : (window.marked ? window.marked.parse(replacedMd) : replacedMd);
-
-    // 回填題目互動卡片
-    quizBlocks.forEach((q, idx) => {
-      const placeholder = `%%QUIZ_PLACEHOLDER_${idx}%%`;
-      const quizHtml = window.GSAT_QUIZ.renderQuizHtml(q, idx, false);
-      renderedHtml = renderedHtml.replace(placeholder, quizHtml);
-    });
-
-    readingContent.innerHTML = renderedHtml;
-
-    // 自動建置大綱目錄 TOC
-    buildToc(readingContent);
-
-    // KaTeX 數學公式渲染
-    if (window.renderMathInElement) {
-      window.renderMathInElement(readingContent, {
-        delimiters: [
-          { left: "$$", right: "$$", display: true },
-          { left: "$", right: "$", display: false },
-          { left: "\\(", right: "\\)", display: false },
-          { left: "\\[", right: "\\]", display: true }
-        ],
-        throwOnError: false
-      });
-    }
-  }
-
-  // 自動提取章節標題建置側邊目錄
-  function buildToc(contentEl) {
-    if (!tocList || !contentEl) return;
-    tocList.innerHTML = "";
-
-    const headings = contentEl.querySelectorAll("h2, h3");
-    if (headings.length === 0) {
-      tocList.innerHTML = '<li class="toc-item"><span style="color:var(--text-muted);font-size:0.82rem;">（本單元無次級標題）</span></li>';
-      return;
-    }
-
-    headings.forEach((h, index) => {
-      let text = h.textContent.trim();
-      text = text.replace(/^(?:<i[^>]*><\/i>\s*)+/gi, "").replace(/^[📌📝\s]+/, "").trim();
-      const slug = `heading-${index}`;
-      h.id = slug;
-
-      const isH2 = h.tagName.toLowerCase() === "h2";
-      const li = document.createElement("li");
-      li.className = `toc-item ${isH2 ? 'level-2' : 'level-3'}`;
-      li.innerHTML = `
-        <a href="#${slug}">
-          <i class="${isH2 ? 'fa-solid fa-folder-open' : 'fa-solid fa-thumbtack'}"></i> ${text}
-        </a>
-      `;
-
-      li.querySelector("a").addEventListener("click", (e) => {
-        e.preventDefault();
-        h.scrollIntoView({ behavior: "smooth", block: "start" });
-      });
-
-      tocList.appendChild(li);
-    });
-  }
-
-  // 渲染學測題庫模式
-  function renderQuizMode(unit) {
-    if (!quizModeQuestions) return;
-
-    // 抓取當前單元中所有的立即演練或公民神演練
-    const raw = unit.content;
-    const quizRegex = />\s*###\s*(?:<i[^>]*><\/i>\s*)?(?:📝\s*)?(?:立即演練|公民神演練)[！!]?[\s\S]*?(?=(?:\r?\n---|\r?\n##|$))/g;
-    const quizzes = [];
-    let match;
-    while ((match = quizRegex.exec(raw)) !== null) {
-      const q = window.GSAT_QUIZ.parseQuizBlock(match[0]);
-      if (q) quizzes.push(q);
-    }
-
-    document.getElementById("quiz-count-stat").textContent = `${quizzes.length} 題`;
-
-    if (quizzes.length === 0) {
-      quizModeQuestions.innerHTML = `
-        <div style="text-align:center; padding: 40px; background:var(--bg-surface); border-radius:var(--radius-md); border:1px solid var(--border-color);">
-          <i class="fa-solid fa-clipboard-check" style="font-size: 2.5rem; color: #10b981; margin-bottom: 12px;"></i>
-          <h3>本單元練習題已同步整合至講義核心段落！</h3>
-          <p style="color:var(--text-muted); margin-top: 8px;">請切換至【簡報投影模式】或【講義精讀模式】隨堂演練！</p>
->>>>>>> d30f44030fa4f66630dd2a7171361dc2ebaad609
         </div>
       `;
       DOM.unitsGrid.appendChild(card);
