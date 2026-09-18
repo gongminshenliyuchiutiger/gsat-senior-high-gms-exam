@@ -40,9 +40,6 @@
         <button class="nav-tab-btn active" data-target="overview-view">
           <i class="fa-solid fa-layer-group"></i> 單元總覽
         </button>
-        <button class="nav-tab-btn" data-target="exam-config-view">
-          <i class="fa-solid fa-pen-to-square"></i> 線上模擬考
-        </button>
         <button class="nav-tab-btn" data-target="practice-view">
           <i class="fa-solid fa-book-open-reader"></i> 即時刷題練習
         </button>
@@ -53,6 +50,9 @@
 
       <!-- 右側快速操作 -->
       <div class="header-actions">
+        <button class="btn btn-ai-header btn-sm" id="btn-ai-settings" title="設定 Google Gemini API Key 與模型">
+          <i class="fa-solid fa-robot"></i> 公民神AI助教設定
+        </button>
         <button class="btn btn-secondary btn-sm" id="btn-quick-wrong-book" title="查看錯題本">
           <i class="fa-solid fa-bookmark text-amber-500"></i> 錯題本 (<span id="wrong-count-badge">0</span>)
         </button>
@@ -72,23 +72,23 @@
         <div class="hero-badge">
           <i class="fa-solid fa-star"></i> 邱俐瑜公民，成為公民神不再只是夢想！
         </div>
-        <h2 class="hero-title">公民神挑戰！數位互動與實戰試卷雙軌系統</h2>
+        <h2 class="hero-title">公民神挑戰！數位即時刷題與實戰試卷雙軌系統</h2>
         <p class="hero-desc">
-          收錄全單元精華素養題、歷屆學測試題與創新混合非選題組。支援線上智能計時作答、即時解析反饋、標準答案卡核對，並可一鍵匯出排版精美的「題目卷」與「解答詳解卷」PDF 檔！
+          收錄全 18 單元共 513 題精華素養題、歷屆學測試題與非選題組。支援即時作答判斷、逐題「公民神AI助教」深度互動解析、錯題智慧收錄，並可一鍵匯出排版精美的「題目卷」與「解答詳解卷」A4 PDF 檔！
         </p>
         <div class="hero-stats-row">
-          <div class="hero-stat-card" id="hero-stat-units" style="cursor: pointer;" title="查看各單元">
+          <div class="hero-stat-card" id="hero-stat-units" style="cursor: pointer;" title="查看各單元總覽">
             <i class="fa-solid fa-book-bookmark stat-icon"></i>
             <div>
               <div class="stat-val" id="stat-total-units">18 大核心</div>
-              <div class="stat-lbl">學習單元主題</div>
+              <div class="stat-lbl">學習單元主題 (點此查看)</div>
             </div>
           </div>
-          <div class="hero-stat-card" id="hero-stat-questions" style="cursor: pointer;" title="開始全真模考">
+          <div class="hero-stat-card" id="hero-stat-questions" style="cursor: pointer;" title="前往即時刷題練習">
             <i class="fa-solid fa-clipboard-question stat-icon"></i>
             <div>
-              <div class="stat-val" id="stat-total-questions">475 題</div>
-              <div class="stat-lbl">精選素養與歷屆題</div>
+              <div class="stat-val" id="stat-total-questions">513 題</div>
+              <div class="stat-lbl">精選試題即時刷 (點此前往)</div>
             </div>
           </div>
           <div class="hero-stat-card" id="hero-stat-pdf" style="cursor: pointer;" title="前往考券列印與 PDF 匯出">
@@ -109,8 +109,8 @@
           <i class="fa-solid fa-compass"></i> 公民科單元總覽與快速自測
         </h2>
         <div>
-          <button class="btn btn-primary" id="btn-start-full-exam">
-            <i class="fa-solid fa-play"></i> 開始全真模擬測驗
+          <button class="btn btn-primary" id="btn-start-all-practice">
+            <i class="fa-solid fa-play"></i> 開始全單元即時刷題
           </button>
         </div>
       </div>
@@ -118,195 +118,6 @@
       <!-- 單元卡片容器 -->
       <div class="unit-cards-grid" id="units-grid-container">
         <!-- 由 JS 動態渲染 -->
-      </div>
-    </section>
-
-    <!-- 視圖 2: 模考設定 -->
-    <section id="exam-config-view" class="view-section">
-      <div class="config-card">
-        <h2 class="section-title">
-          <i class="fa-solid fa-sliders"></i> 自訂模擬測驗設定
-        </h2>
-        <p class="text-muted" style="font-size: 0.9rem; margin-top: 0.25rem;">
-          依照您的複習進度，自選測驗單元範圍、題數與測驗時間。
-        </p>
-
-        <div class="config-grid">
-          <!-- 範圍選擇 -->
-          <div class="form-group">
-            <label><i class="fa-solid fa-list-check"></i> 測驗單元範圍</label>
-            <div class="checkbox-group" id="unit-selector-checkboxes">
-              <!-- 由 JS 渲染 -->
-            </div>
-          </div>
-
-          <!-- 題型與題數 -->
-          <div class="form-group">
-            <label><i class="fa-solid fa-hashtag"></i> 抽考題數</label>
-            <select class="form-select" id="exam-qcount-select">
-              <option value="10">10 題（快速隨堂測驗）</option>
-              <option value="20" selected>20 題（標準單元模考）</option>
-              <option value="30">30 題（全真大型模擬考）</option>
-              <option value="all">全選（測驗所選單元全部試題）</option>
-            </select>
-
-            <label style="margin-top: 1rem;"><i class="fa-solid fa-stopwatch"></i> 測驗倒數計時</label>
-            <select class="form-select" id="exam-timer-select">
-              <option value="15">15 分鐘（衝刺快問）</option>
-              <option value="30">30 分鐘（半小時小考）</option>
-              <option value="50" selected>50 分鐘（標準學測模考）</option>
-              <option value="0">無時間限制（自主輕鬆測驗）</option>
-            </select>
-          </div>
-
-          <!-- 模式與排序 -->
-          <div class="form-group">
-            <label><i class="fa-solid fa-shuffle"></i> 題目排序方式</label>
-            <select class="form-select" id="exam-order-select">
-              <option value="random" selected>隨機亂數抽題 (推薦)</option>
-              <option value="sequential">依單元循序排列</option>
-            </select>
-
-            <label style="margin-top: 1rem;"><i class="fa-solid fa-filter"></i> 題型包含</label>
-            <select class="form-select" id="exam-type-filter-select">
-              <option value="all" selected>包含所有題型（單選、混合、非選、歷屆）</option>
-              <option value="single">僅單選題</option>
-              <option value="mixed">包含混合與非選題組</option>
-              <option value="gsat">僅歷屆學測經典題</option>
-            </select>
-          </div>
-        </div>
-
-        <div style="display: flex; justify-content: flex-end; gap: 1rem;">
-          <button class="btn btn-secondary" id="btn-config-reset">
-            <i class="fa-solid fa-rotate-left"></i> 重設
-          </button>
-          <button class="btn btn-primary btn-lg" id="btn-launch-exam">
-            <i class="fa-solid fa-rocket"></i> 開始測驗
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- 視圖 3: 進行中的測驗畫面 -->
-    <section id="exam-active-view" class="view-section">
-      <div class="exam-header-bar">
-        <div class="exam-info-box">
-          <div class="exam-title-badge" id="exam-active-title">
-            <i class="fa-solid fa-pen-nib text-primary"></i> 公民科模擬測驗進行中
-          </div>
-          <div class="timer-box" id="exam-timer-display">
-            <i class="fa-solid fa-clock"></i> <span id="timer-text">50:00</span>
-          </div>
-        </div>
-
-        <div style="display: flex; gap: 0.6rem; align-items: center;">
-          <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">
-            已作答: <b id="progress-answered" style="color: var(--primary);">0</b> / <span id="progress-total">0</span>
-          </span>
-          <button class="btn btn-success btn-sm" id="btn-submit-exam">
-            <i class="fa-solid fa-paper-plane"></i> 交卷計分
-          </button>
-        </div>
-      </div>
-
-      <div class="exam-layout">
-        <!-- 題目列表區 -->
-        <div class="exam-questions-container" id="exam-questions-container">
-          <!-- 由 JS 渲染題目 -->
-        </div>
-
-        <!-- 右側/底部答案卡導航 -->
-        <aside class="exam-sidebar">
-          <div class="sheet-card">
-            <div class="sheet-header">
-              <span><i class="fa-solid fa-table-cells"></i> 答題卡導航</span>
-              <span style="font-size: 0.75rem; color: var(--text-muted);">點擊題號跳轉</span>
-            </div>
-
-            <div class="sheet-legend">
-              <div class="legend-item"><div class="legend-dot answered"></div>已答</div>
-              <div class="legend-item"><div class="legend-dot unanswered"></div>未答</div>
-              <div class="legend-item"><div class="legend-dot flagged"></div>標記</div>
-            </div>
-
-            <div class="sheet-grid" id="sheet-buttons-grid">
-              <!-- 由 JS 渲染題號按鈕 -->
-            </div>
-
-            <button class="btn btn-primary" style="width: 100%;" id="btn-sidebar-submit">
-              <i class="fa-solid fa-check-double"></i> 確認交卷
-            </button>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- 視圖 4: 測驗結果報告 -->
-    <section id="score-report-view" class="view-section">
-      <div class="score-hero">
-        <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 1.25rem;">
-          <i class="fa-solid fa-award"></i> 測驗成績與分析報告
-        </h2>
-
-        <div class="score-circle-wrap" id="score-circle-indicator">
-          <div class="score-circle-inner">
-            <div class="score-big" id="report-final-score">85</div>
-            <div class="score-max">總分 100 分</div>
-          </div>
-        </div>
-
-        <div class="score-tier-badge" id="report-tier-badge">
-          <i class="fa-solid fa-crown"></i> 預估等級：頂標（公民神實力！）
-        </div>
-
-        <div class="score-details-row">
-          <div class="score-item">
-            <div class="val" id="report-correct-count" style="color: #34d399;">17 題</div>
-            <div class="lbl">答對題數</div>
-          </div>
-          <div class="score-item">
-            <div class="val" id="report-wrong-count" style="color: #f87171;">3 題</div>
-            <div class="lbl">答錯題數</div>
-          </div>
-          <div class="score-item">
-            <div class="val" id="report-accuracy-rate">85%</div>
-            <div class="lbl">正確率</div>
-          </div>
-          <div class="score-item">
-            <div class="val" id="report-time-spent">24:30</div>
-            <div class="lbl">作答用時</div>
-          </div>
-        </div>
-
-        <div style="margin-top: 1.75rem; display: flex; justify-content: center; gap: 0.85rem; flex-wrap: wrap;">
-          <button class="btn btn-secondary" id="btn-retest">
-            <i class="fa-solid fa-rotate"></i> 重新測驗
-          </button>
-          <button class="btn btn-accent" id="btn-export-result-pdf">
-            <i class="fa-solid fa-file-pdf"></i> 列印此份考卷詳解
-          </button>
-        </div>
-      </div>
-
-      <!-- 試題回顧與解析 -->
-      <div class="section-heading">
-        <h3 class="section-title">
-          <i class="fa-solid fa-magnifying-glass"></i> 逐題完整解析與作答檢討
-        </h3>
-        <div class="review-filter-bar">
-          <button class="btn btn-secondary btn-sm active" data-review-filter="all">全部題目</button>
-          <button class="btn btn-secondary btn-sm" data-review-filter="wrong">
-            <i class="fa-solid fa-circle-xmark text-danger"></i> 僅看錯題
-          </button>
-          <button class="btn btn-secondary btn-sm" data-review-filter="correct">
-            <i class="fa-solid fa-circle-check text-success"></i> 僅看答對
-          </button>
-        </div>
-      </div>
-
-      <div id="review-questions-list">
-        <!-- 由 JS 渲染試題解析清單 -->
       </div>
     </section>
 
@@ -420,13 +231,13 @@
           <!-- 考生填答資訊表格 (題目卷專用) -->
           <table class="paper-student-info-table" id="paper-student-info-box">
             <tr>
-              <td class="header-label">班級</td>
-              <td>&nbsp;</td>
-              <td class="header-label">座號</td>
-              <td>&nbsp;</td>
-              <td class="header-label">姓名</td>
-              <td>&nbsp;</td>
-              <td class="header-label">得分</td>
+              <td class="header-label label-class">班級</td>
+              <td class="cell-class">&nbsp;</td>
+              <td class="header-label label-seat">座號</td>
+              <td class="cell-seat">&nbsp;</td>
+              <td class="header-label label-name">姓名</td>
+              <td class="cell-name">&nbsp;</td>
+              <td class="header-label label-score">得分</td>
               <td class="score-box">&nbsp;</td>
             </tr>
           </table>
@@ -475,21 +286,6 @@
     </div>
   </footer>
 
-  <!-- 交卷確認 Modal -->
-  <div class="modal-overlay" id="submit-confirm-modal">
-    <div class="modal-box">
-      <h3 class="modal-title">
-        <i class="fa-solid fa-circle-question text-primary"></i> 確認繳交試卷？
-      </h3>
-      <p id="modal-submit-stats" style="color: var(--text-muted); margin-bottom: 1rem;">
-        您已作答 0 題，尚有 0 題未作答。
-      </p>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" id="btn-modal-cancel">繼續作答</button>
-        <button class="btn btn-primary" id="btn-modal-confirm">確認交卷</button>
-      </div>
-    </div>
-  </div>
 
   <!-- 清除歷史紀錄確認 Modal -->
   <div class="modal-overlay" id="clear-history-modal">
@@ -503,6 +299,152 @@
       <div class="modal-actions">
         <button class="btn btn-secondary" id="btn-modal-clear-cancel">取消</button>
         <button class="btn btn-primary" id="btn-modal-clear-confirm" style="background: #e11d48; border-color: #be123c;">確認清除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI 助教設定 Modal -->
+  <div class="modal-overlay" id="ai-settings-modal">
+    <div class="modal-box" style="max-width: 580px;">
+      <h3 class="modal-title" style="color: #6b21a8; display: flex; align-items: center; justify-content: space-between;">
+        <span style="display: flex; align-items: center; gap: 0.5rem;">
+          <i class="fa-solid fa-robot"></i> 公民神AI助教設定
+        </span>
+        <button class="modal-close-icon-btn" id="btn-close-ai-x" title="關閉">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </h3>
+      
+      <div class="ai-config-hint" style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <div>
+          <i class="fa-solid fa-circle-info"></i> <strong>免費取得 API Key：</strong>
+          本系統使用 Google Gemini API 為您即時解析試題。您可以前往 
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" style="color: #2563eb; text-decoration: underline; font-weight: 700;">
+            Google AI Studio 官網
+          </a> 免費申請個人 API Key（具有免費額度，無需付費）。
+        </div>
+        <div>
+          <button type="button" class="btn btn-sm" id="btn-open-tutorial-from-settings" style="background: #ffffff; color: #2563eb; border: 1.5px solid #93c5fd; font-weight: 700; border-radius: var(--radius-full); padding: 0.3rem 0.85rem;">
+            <i class="fa-solid fa-circle-question"></i> 查看 5 步驟圖文教學
+          </button>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.15rem;">
+        <label style="display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem; color: #1e293b;">
+          <i class="fa-solid fa-key"></i> Google Gemini API Key
+        </label>
+        <div style="display: flex; gap: 0.5rem;">
+          <input type="password" id="input-gemini-api-key" placeholder="貼上您的 API Key (例如：AIzaSy...)" 
+                 style="flex: 1; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
+          <button class="btn btn-secondary btn-sm" id="btn-toggle-key-visibility" type="button" title="顯示/隱藏 Key">
+            <i class="fa-solid fa-eye" id="icon-eye-key"></i>
+          </button>
+        </div>
+        <p style="font-size: 0.78rem; color: #64748b; margin-top: 0.25rem;">
+          <i class="fa-solid fa-shield-halved"></i> 您的 API Key 僅儲存於本機瀏覽器（localStorage），絕不會上傳至任何第三方伺服器。
+        </p>
+      </div>
+
+      <div style="margin-bottom: 1.25rem;">
+        <label style="display: block; font-weight: 700; font-size: 0.9rem; margin-bottom: 0.4rem; color: #1e293b;">
+          <i class="fa-solid fa-brain"></i> 選擇 Gemini 模型
+        </label>
+        <select id="select-gemini-model" class="form-select" style="width: 100%; padding: 0.55rem 0.75rem; border: 1.5px solid #cbd5e1; border-radius: 6px; font-size: 0.9rem;">
+          <option value="gemini-2.5-flash" selected>gemini-2.5-flash（官方推薦：極速精準分析、支援最新思考推理）</option>
+          <option value="gemini-2.5-pro">gemini-2.5-pro（深度複雜題目推導與跨單元概念整合）</option>
+          <option value="gemini-2.0-flash">gemini-2.0-flash（超快速響應）</option>
+          <option value="gemini-1.5-flash">gemini-1.5-flash（穩定輕量）</option>
+          <option value="gemini-1.5-pro">gemini-1.5-pro（旗艦多模態深度推理）</option>
+        </select>
+      </div>
+
+      <div id="ai-test-status" style="display: none; padding: 0.6rem 0.85rem; border-radius: 6px; font-size: 0.85rem; margin-bottom: 1rem;">
+      </div>
+
+      <div class="modal-actions" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <button class="btn btn-secondary btn-sm" id="btn-clear-ai-key" style="color: #ef4444;" type="button">
+            <i class="fa-solid fa-trash-can"></i> 清除 Key
+          </button>
+        </div>
+        <div style="display: flex; gap: 0.6rem;">
+          <button class="btn btn-secondary btn-sm" id="btn-test-ai-key" type="button">
+            <i class="fa-solid fa-plug-circle-check"></i> 測試連線
+          </button>
+          <button class="btn btn-secondary btn-sm" id="btn-close-ai-modal" type="button">關閉</button>
+          <button class="btn btn-primary btn-sm" id="btn-save-ai-settings" type="button" style="background: linear-gradient(135deg, #7c3aed, #4f46e5);">
+            <i class="fa-solid fa-floppy-disk"></i> 儲存設定
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- API 金鑰 5 步驟教學 Modal (依照使用者截圖精準打造) -->
+  <div class="modal-overlay" id="ai-tutorial-modal">
+    <div class="tutorial-modal-box">
+      <div class="tutorial-modal-header">
+        <h3 class="tutorial-modal-title">
+          <i class="fa-solid fa-key"></i> 如何取得免費的 Google Gemini API 金鑰？
+        </h3>
+        <button class="modal-close-icon-btn" id="btn-close-tutorial-x" title="關閉教學">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <p class="tutorial-subtitle">
+        按照以下簡單步驟，即可取得您自己的免費金鑰，享受更穩定、個人化的服務。
+      </p>
+
+      <div class="tutorial-steps-list">
+        <div class="tutorial-step-card">
+          <div class="tutorial-step-num">1</div>
+          <div class="tutorial-step-content">
+            前往 <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" class="tutorial-link">Google AI Studio 的 API 金鑰頁面 <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.75rem;"></i></a>。
+          </div>
+        </div>
+
+        <div class="tutorial-step-card">
+          <div class="tutorial-step-num">2</div>
+          <div class="tutorial-step-content">
+            使用您的 Google 帳號登入。
+          </div>
+        </div>
+
+        <div class="tutorial-step-card">
+          <div class="tutorial-step-num">3</div>
+          <div class="tutorial-step-content">
+            點擊頁面上的<strong>「建立 API 金鑰」(Create API key)</strong> 按鈕。
+          </div>
+        </div>
+
+        <div class="tutorial-step-card">
+          <div class="tutorial-step-num">4</div>
+          <div class="tutorial-step-content">
+            系統會立即產生一組新的金鑰。點擊金鑰旁邊的複製圖示。
+          </div>
+        </div>
+
+        <div class="tutorial-step-card">
+          <div class="tutorial-step-num">5</div>
+          <div class="tutorial-step-content">
+            回到本頁面，將複製的金鑰貼到輸入框中即可！
+          </div>
+        </div>
+      </div>
+
+      <div class="tutorial-alert-box">
+        <i class="fa-solid fa-shield-halved tutorial-alert-icon"></i>
+        <div>
+          <strong>提醒：</strong>請妥善保管您的 API 金鑰，不要與他人分享。
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: flex-end; margin-top: 1.25rem;">
+        <button class="btn btn-tutorial-primary" id="btn-tutorial-got-it">
+          <i class="fa-solid fa-check"></i> 我知道了
+        </button>
       </div>
     </div>
   </div>
